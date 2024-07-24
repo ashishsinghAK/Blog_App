@@ -10,9 +10,12 @@ app.use(express.json());
 
 //import userRoute from routes folder
 const userRoute = require('./routes/userRoute');
+const authRoute = require('./routes/authRoute');
 
 //mount
 app.use("/api/v1",userRoute);
+app.use("/api/auth",authRoute);
+
 
 
 const connect = require('./config/database');
