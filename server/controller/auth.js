@@ -9,8 +9,7 @@ exports.SignUp = async (req,res) => {
            message:"Required all the fields !"
         })
     }
-
-   
+    
     else{
         const hashedPassword = await bcrypt.hash(password,10);
         const user = new User({
