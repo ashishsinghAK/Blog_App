@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Projects from './pages/Projects';
 import Header from './Components/Header';
+import FooterComp from './Components/FooterComp';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/project" element={<Projects />} />
         </Routes>
+        <FooterComp/>
     </div>
   );
 }
