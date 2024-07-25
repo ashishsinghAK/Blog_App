@@ -6,7 +6,9 @@ require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 
 //middleware
+const cookieParser = require('cookie-parser');
 app.use(express.json());
+app.use(cookieParser());
 
 //import userRoute from routes folder
 const userRoute = require('./routes/userRoute');
