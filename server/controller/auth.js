@@ -35,7 +35,7 @@ exports.SignUp = async (req, res,next) => {
     console.log(error);
     res.status(400).json({
       success: false,
-      message: 'something went wrong'
+      message: 'sign up fail'
     })
   }
 
@@ -86,7 +86,68 @@ exports.SignIn = async (req, res,next) => {
     console.log(error);
     res.status(400).json({
       success: false,
-      message: 'something went wrong'
+      message: 'sign in fail'
     })
   }
+}
+
+
+exports.googleAuth = async(req,res,next) => {
+    const {name,email,googlePhotoUrl} = req.body;
+    try{
+        const user = await User.findOne({email});
+        if(user){
+          const payload = {
+            id: user._id,
+          };
+    
+          let token = jwt.sign(
+            payload, process.env.JWT_SECRET,{
+              expiresIn: "1h"
+          })
+
+          res.status(200).cookie('token',token,{httpOnly:true}).json({
+            success:true,
+            message:'google auth successfull'
+          })
+
+        }
+
+        else{
+            const generatedPassword = Math.random().toString(36).slice(-8);
+            const hashedPassword =await bcrypt.hash(generatedPassword,10);
+            const newUser = new User({
+              username:name.toLowerCase().split(' ').join('')+ Math.random().toString(9).slice(-4),
+              email,
+              password:hashedPassword,
+              profilePicture:googlePhotoUrl
+            })
+            await newUser.save();
+            const payload = {
+              id: newUser._id,
+            };
+      
+            let token = jwt.sign(
+              payload, process.env.JWT_SECRET,{
+                expiresIn: "1h"
+            })
+
+            
+            res.status(200)
+            .cookie('token', token, { httpOnly: true })
+            .json({
+              success: true,
+              message: 'Google authentication successful'
+            });
+
+        }
+
+
+    }catch(err){
+      console.log(err);
+      res.status(400).json({
+        success: false,
+        message: 'goole authentication fail'
+      })
+    }
 }
