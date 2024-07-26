@@ -46,7 +46,7 @@ exports.SignUp = async (req, res,next) => {
 exports.SignIn = async (req, res,next) => {
 
   const {username, password, email } = req.body;
-  if (!username || !password || username === '' || password === '') {
+  if (!password || username === '' || password === '') {
     return res.status(400).json({
       success: false,
       message: "Required all the fields !"
