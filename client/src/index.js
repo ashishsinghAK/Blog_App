@@ -13,13 +13,13 @@ root.render(
 
 
 
-  <BrowserRouter>
-    <PersistGate persistor={persistor}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </PersistGate>
-  </BrowserRouter >
+  <Provider store={store}>
+  <PersistGate loading={null} persistor={persistor}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </PersistGate>
+</Provider>
 
 
 );

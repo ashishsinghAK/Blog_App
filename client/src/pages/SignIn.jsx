@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signInFailure,signInStart,signInSuccess } from "../redux/slice/userSlice";
 import {useDispatch,useSelector} from 'react-redux';
 import OAuth from "../Components/OAuth";
-const SignIp = () => {
+const SignIn = () => {
 
     const [formData, setFormData] = useState({});
     // const [errorMessage, setErrorMessage] = useState(null);
@@ -106,4 +106,4 @@ const SignIp = () => {
         </div>
     )
 }
-export default SignIp;
+export default SignIn;
