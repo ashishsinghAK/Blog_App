@@ -3,6 +3,8 @@ import { Navbar, TextInput, Button ,Dropdown,Avatar} from 'flowbite-react';
 import { FaMoon, FaSearch } from "react-icons/fa";
 import {useSelector,useDispatch} from 'react-redux';
 import {toggleTheme} from '../redux/slice/themeSlice';
+
+
 const Header = () => {
     const {currentUser}  = useSelector(state => state.user);
     console.log('Current User:', currentUser);
