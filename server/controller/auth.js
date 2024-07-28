@@ -71,7 +71,7 @@ exports.SignIn = async (req, res, next) => {
       )
 
 
-      const { password: pass, ...rest } = validUser._doc;
+      const { password, ...rest } = validUser._doc;
 
     res
       .status(200)

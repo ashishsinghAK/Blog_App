@@ -6,6 +6,7 @@ import {toggleTheme} from '../redux/slice/themeSlice';
 
 
 const Header = () => {
+  const imageFileUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
     const {currentUser}  = useSelector(state => state.user);
     console.log('Current User:', currentUser);
     const path = useLocation().pathname;
@@ -42,7 +43,8 @@ const Header = () => {
                               arrowIcon={false}
                               inline
                               label={
-                                <Avatar alt='user' img={currentUser.profilePicture} rounded />
+                                <Avatar alt='user' img={imageFileUrl} rounded />
+                               // <Avatar alt='user' img={currentUser.profilePicture} rounded />
                               }
                             >
                               <Dropdown.Header>
