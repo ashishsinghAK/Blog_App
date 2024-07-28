@@ -2,7 +2,7 @@ import { TextInput, Button, Alert,Modal } from 'flowbite-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
-import {deleteUserFailure,deleteUserStart,deleteUserSuccess} from '../redux/slice/userSlice';
+import {deleteUserFailure,deleteUserStart,deleteUserSuccess,SignOutSuccess} from '../redux/slice/userSlice';
 
 // import {
 //     getDownloadURL,
@@ -45,6 +45,23 @@ export default function DashProfile() {
 
         }catch(err){
             dispatch(deleteUserFailure(err.message));
+        }
+    }
+
+    const handleSignOut = async() => {
+        try{
+            const res = await fetch('/api/v1/signout',{
+                method:'POST'
+            });
+            const data = await res.json();
+            if(!res.ok){
+                console.log('Error occured');
+            }
+            else{
+                dispatch(SignOutSuccess());
+            }
+        }catch(err){
+
         }
     }
 
@@ -153,7 +170,7 @@ export default function DashProfile() {
             </form>
             <div className='text-red-500 flex justify-between mt-5'>
                 <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete Account</span>
-                <span className='cursor-pointer'>Sign Out</span>
+                <span className='cursor-pointer' onClick={handleSignOut}>Sign Out</span>
             </div>
                 <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
                     <Modal.Header/>

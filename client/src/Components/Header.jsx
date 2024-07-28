@@ -1,8 +1,9 @@
-import { Link ,useLocation} from "react-router-dom";
+import { Link ,useLocation,useNavigate} from "react-router-dom";
 import { Navbar, TextInput, Button ,Dropdown,Avatar} from 'flowbite-react';
 import { FaMoon, FaSearch } from "react-icons/fa";
-import {useSelector,useDispatch} from 'react-redux';
+import {useSelector,useDispatch,} from 'react-redux';
 import {toggleTheme} from '../redux/slice/themeSlice';
+import {SignOutSuccess} from '../redux/slice/userSlice';
 
 
 const Header = () => {
@@ -12,6 +13,26 @@ const Header = () => {
     const path = useLocation().pathname;
     const dispatch = useDispatch();
     const { theme } = useSelector((state) => state.theme);
+    const navigate = useNavigate();
+
+
+    const handleSignOut = async() => {
+      try{
+          const res = await fetch('/api/v1/signout',{
+              method:'POST'
+          });
+          const data = await res.json();
+          if(!res.ok){
+              console.log('Error occured');
+          }
+          else{
+              dispatch(SignOutSuccess());
+              navigate('/sign-in')
+          }
+      }catch(err){
+          console.log("Error! occured")
+      }
+  }
     return (
         <div>
 
@@ -57,11 +78,11 @@ const Header = () => {
                                 <Dropdown.Item>Profile</Dropdown.Item>
                               </Link>
                               <Dropdown.Divider />
-                              <Dropdown.Item >Sign out</Dropdown.Item>
+                              <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>
                             </Dropdown>
                           ) : (
                             <Link to='/sign-in'>
-                              <Button gradientDuoTone='purpleToBlue' outline>
+                              <Button gradientDuoTone='purpleToBlue' outline >
                                 Sign In
                               </Button>
                             </Link>
