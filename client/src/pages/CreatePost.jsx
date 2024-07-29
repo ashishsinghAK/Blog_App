@@ -133,7 +133,7 @@ const CreatePost = () => {
                     Publish
                 </Button>
                 {
-                    publishError && <Alert className='mt-5' color='failure'>{"Title must not same as Previous Posts"}</Alert>
+                    publishError && <Alert className='mt-5' color='failure'>{publishError}</Alert>
                 }
 
             </form>

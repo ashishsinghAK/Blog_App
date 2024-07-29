@@ -61,7 +61,7 @@ const FooterComp = () => {
 
                 <Footer.Divider/>
                 <div className="w-full sm:flex sm:items-center sm:justify-between">
-                    <Footer.Copyright href="#" by="Blog's with AK" year={new Date().getFullYear}/>
+                    <Footer.Copyright href="#" by="Blog's with AK" year={new Date().getFullYear()}/>
                     <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center lg:mt-3">
                         <Footer.Icon href="#" icon={BsFacebook}/>
                         <Footer.Icon href='#' icon={BsInstagram}/>
