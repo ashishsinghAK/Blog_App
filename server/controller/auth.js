@@ -64,6 +64,7 @@ exports.SignIn = async (req, res, next) => {
     if (await bcrypt.compare(password, validUser.password)) {
       const payload = {
         id: validUser._id,
+        isAdmin:validUser.isAdmin
       };
 
       let token = jwt.sign(
@@ -104,6 +105,7 @@ exports.googleAuth = async (req, res, next) => {
     if (user) {
       const payload = {
         id: user._id,
+        isAdmin:user.isAdmin
       };
 
       let token = jwt.sign(
@@ -132,6 +134,7 @@ exports.googleAuth = async (req, res, next) => {
       await newUser.save();
       const payload = {
         id: newUser._id,
+        isAdmin:user.isAdmin
       };
 
       let token = jwt.sign(

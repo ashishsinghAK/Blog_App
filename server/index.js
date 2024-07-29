@@ -19,10 +19,12 @@ app.use(cookieParser());
 //import userRoute from routes folder
 const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
+const createPostRoute = require('./routes/createPostRoute');
 
 //mount
 app.use("/api/v1",userRoute);
 app.use("/api/auth",authRoute);
+app.use("/api/post",createPostRoute);
 
 
 const connect = require('./config/database');

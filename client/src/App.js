@@ -9,6 +9,8 @@ import Header from './Components/Header';
 import FooterComp from './Components/FooterComp';
 import PrivateRoute from './Components/PrivateRoute';
 import React, { useEffect, useState } from 'react';
+import AdminPrivateRoute from './Components/AdminPrivateRoute';
+import CreatePost from './pages/CreatePost';
 
 function App() {
   const [data, setData] = useState(null);
@@ -27,6 +29,9 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+          <Route element={<AdminPrivateRoute/>}>
+          <Route path="/create-post" element={<CreatePost />} />
           </Route>
           
           <Route path="/project" element={<Projects />} />

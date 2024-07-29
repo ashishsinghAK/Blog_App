@@ -1,4 +1,5 @@
-import { TextInput, Button, Alert,Modal } from 'flowbite-react';
+import { TextInput, Button, Alert,Modal} from 'flowbite-react';
+import {Link} from 'react-router-dom'
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
@@ -167,6 +168,18 @@ export default function DashProfile() {
                 {/* <Button type='submit' gradientDuoTone='purpleToBlue' outline>
                     Update
                 </Button> */}
+
+                {
+                    currentUser.isAdmin && (
+                       <Link to={'/create-post'}>
+                         <Button type='button' gradientDuoTone='purpleToBlue' className='w-full' outline>
+                            Create a Post
+                        </Button>
+                       </Link>
+                    )
+                }
+
+
             </form>
             <div className='text-red-500 flex justify-between mt-5'>
                 <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete Account</span>
