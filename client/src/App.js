@@ -11,6 +11,8 @@ import PrivateRoute from './Components/PrivateRoute';
 import React, { useEffect, useState } from 'react';
 import AdminPrivateRoute from './Components/AdminPrivateRoute';
 import CreatePost from './pages/CreatePost';
+import PostPage from'./pages/PostPage'
+import ScrollToTop from './Components/ScrollToTop';
 
 function App() {
   const [data, setData] = useState(null);
@@ -35,6 +37,7 @@ function App() {
           </Route>
           
           <Route path="/project" element={<Projects />} />
+          <Route path="/post/:postSlug" element={<PostPage />} />
         </Routes>
         <FooterComp/>
     </div>

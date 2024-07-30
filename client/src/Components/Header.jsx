@@ -9,7 +9,6 @@ import {SignOutSuccess} from '../redux/slice/userSlice';
 const Header = () => {
   const imageFileUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
     const {currentUser}  = useSelector(state => state.user);
-    console.log('Current User:', currentUser);
     const path = useLocation().pathname;
     const dispatch = useDispatch();
     const { theme } = useSelector((state) => state.theme);

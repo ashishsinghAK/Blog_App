@@ -20,11 +20,13 @@ app.use(cookieParser());
 const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 const createPostRoute = require('./routes/createPostRoute');
+const commentRoute = require('./routes/commentRoute');
 
 //mount
 app.use("/api/v1",userRoute);
 app.use("/api/auth",authRoute);
 app.use("/api/post",createPostRoute);
+app.use('/api/comment',commentRoute);
 
 
 const connect = require('./config/database');
