@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import { Link,useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCheck } from 'react-icons/fa';
-import { Alert, Button, Textarea, TextInput } from 'flowbite-react';
+import { Alert, Button, Textarea, TextInput, Modal } from 'flowbite-react';
 import FooterComment from './FooterComment';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 const Comment = ({ postId }) => {
@@ -12,6 +13,8 @@ const Comment = ({ postId }) => {
     const [commentError, setCommentError] = useState(null);
     const [comments, setComments] = useState([]);
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [commentToDelete, setCommentToDelete] = useState(null);
     // console.log(comments);
 
     const handleSubmit = async (e) => {
@@ -31,7 +34,7 @@ const Comment = ({ postId }) => {
             if (res.ok) {
                 setComment('');
                 setCommentError(null);
-                setComments([data,...comments]);
+                setComments([data, ...comments]);
             }
         } catch (err) {
             setCommentError(err.message);
@@ -53,55 +56,74 @@ const Comment = ({ postId }) => {
         getComments();
     }, [postId])
 
-    const handleLike = async(commentId) => {
-        try{
-            if(!currentUser){
+    const handleLike = async (commentId) => {
+        try {
+            if (!currentUser) {
                 navigate('/sign-in');
                 return;
             }
-            const res = await fetch(`/api/comment/like/${commentId}`,{
-                method:'PUT'
+            const res = await fetch(`/api/comment/like/${commentId}`, {
+                method: 'PUT'
             });
             if (res.ok) {
                 const data = await res.json();
-                setComments(comments.map((comment) => 
-                    comment._id === commentId 
-                    ? {
-                        ...comment,
-                        likes: data.likes,
-                        numberOfLikes: data.likes.length,
-                    } 
-                    : comment
+                setComments(comments.map((comment) =>
+                    comment._id === commentId
+                        ? {
+                            ...comment,
+                            likes: data.likes,
+                            numberOfLikes: data.likes.length,
+                        }
+                        : comment
                 ));
             }
-        }catch(err){
+        } catch (err) {
             console.log(err.message);
         }
     }
 
-    const handledisLike = async(commentId) => {
-        try{
-            if(!currentUser){
+    const handledisLike = async (commentId) => {
+        try {
+            if (!currentUser) {
                 navigate('/sign-in');
                 return;
             }
-            const res = await fetch(`/api/comment/dislike/${commentId}`,{
-                method:'PUT'
+            const res = await fetch(`/api/comment/dislike/${commentId}`, {
+                method: 'PUT'
             });
             if (res.ok) {
                 const data = await res.json();
-                setComments(comments.map((comment) => 
-                    comment._id === commentId 
-                    ? {
-                        ...comment,
-                        dislikes: data.dislikes,
-                        numberOfdisLikes: data.dislikes.length,
-                    } 
-                    : comment
+                setComments(comments.map((comment) =>
+                    comment._id === commentId
+                        ? {
+                            ...comment,
+                            dislikes: data.dislikes,
+                            numberOfdisLikes: data.dislikes.length,
+                        }
+                        : comment
                 ));
             }
         }
-        catch(err){
+        catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    const handleDelete = async (commentId) => {
+        setShowModal(false);
+        try {
+            if (!currentUser) {
+                navigate('/sign-in');
+                return;
+            }
+            const res = await fetch(`/api/comment/deletecomment/${commentId}`, {
+                method: 'DELETE'
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setComments(comments.filter((comment) => comment._id !== commentId))
+            }
+        } catch (err) {
             console.log(err.message);
         }
     }
@@ -159,12 +181,34 @@ const Comment = ({ postId }) => {
                         </div>
 
                         {comments.map((comment) => (
-                            <FooterComment key={comment._id} comment={comment} onLike={handleLike} onDisLike={handledisLike}/>
+                            <FooterComment key={comment._id} comment={comment} onLike={handleLike} onDisLike={handledisLike}
+                                onDelete={(commentId) => {
+                                    setShowModal(true);
+                                    setCommentToDelete(commentId)
+                                }} />
                         ))}
 
                     </>
                 )
             }
+            <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className='text-center'>
+                        <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 
+                            dark:text-gray-200 mb-4 mx-auto'/>
+                        <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-300'>
+                            Are you sure you want to delete the Comment
+                        </h3>
+                        <div className='flex justify-center gap-4 '>
+                            <Button color='failure' onClick={() => handleDelete(commentToDelete)}>
+                                Yes, I'm sure
+                            </Button>
+                            <Button color='green' onClick={() => setShowModal(false)}>No,Cancel</Button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </div>
     )
 }

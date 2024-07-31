@@ -87,6 +87,34 @@ exports.dislikeComment = async(req,res,next) => {
         res.status(200).json(comment);
     }
     catch(err){
+        return res.json({
+            success:false,
+            message:"error occur!"
+        })
+    }
+};
 
+exports.deleteComment = async(req,res,next) => {
+    try{
+        const comment = await Comment.findById(req.params.commentId);
+        if(!comment){
+            return res.json({
+                success:false,
+                error:"Comment not found"
+            });
+        }
+        if(comment.userId !== req.user.id && !req.user.isAdmin){
+            return res.json({
+                success:false,
+                message:'you are not authorised to delete comment'
+            })
+        };
+        await Comment.findByIdAndDelete(req.params.commentId);
+        res.status(200).json('Comment has been deleted');
+    }catch(err){
+        return res.json({
+            success:false,
+            message:"error occur!"
+        })
     }
 }

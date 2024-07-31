@@ -5,12 +5,14 @@ import { Button, Spinner } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import '../index.css';
 import Comment from '../Components/Comment';
+import PostCard from '../Components/PostCard';
 
 const PostPage = () => {
     const { postSlug } = useParams();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [posts, setPosts] = useState(null);
+    const [recentPost,setRecentPost] = useState(null);
 
 
     useEffect(() => {
@@ -39,6 +41,21 @@ const PostPage = () => {
 
     }, [postSlug]);
 
+    useEffect(() => {
+        try{
+            const fetchPost = async() => {
+                const res = await fetch(`/api/post/getpost?limit=3`);
+                const data = await res.json();
+                if(res.ok){
+                    setRecentPost(data.post);
+                }
+            };
+            fetchPost();
+        }catch(err){
+            console.log(err.message);
+        }
+    },[])
+
     if (loading) {
         return (
             <div className='flex justify-center items-center'>
@@ -52,7 +69,7 @@ const PostPage = () => {
                 {posts && posts.title}
             </h1>
             <Link to={`/search?category=${posts && posts.category}`} className='self-center mt-5'>
-                <Button color='gray' pill sixe='xs'>{posts && posts.category}</Button>
+                <Button color='gray' pill size='xs'>{posts && posts.category}</Button>
             </Link>
 
             <img src={posts && posts.image} alt={posts && posts.title} className='mt-10 p-3 
@@ -64,6 +81,17 @@ const PostPage = () => {
 
             </div>
             <Comment postId={posts._id}/>
+
+            <div className='flex flex-col judtify-center items-center mb-5 '>
+                <h1 className='text-xl mt-5'>Recent Articles</h1>
+                <div className='flex flex-wrap gap-5 mt-5 justify-center'>
+                    {
+                        recentPost && recentPost.map((post) => 
+                            <PostCard key={post._id} post={post}/>
+                        )
+                    }
+                </div>
+            </div>
         </main>
     )
 }
