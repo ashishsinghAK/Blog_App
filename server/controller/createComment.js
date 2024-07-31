@@ -32,3 +32,61 @@ exports.getPostComment = async(req,res,next) => {
             })
         }
 }
+
+exports.likeComment = async(req,res,next) => {
+    try{
+        const comment = await Comment.findById(req.params.commentId);
+        if(!comment){
+            return res.json({
+                success:false,
+                error:"Comment not found"
+            });
+
+        }
+
+        const userIndex = comment.likes.indexOf(req.user.id);
+        if(userIndex === -1){
+            comment.numberOfLikes +=1;
+            comment.likes.push(req.user.id);
+        }
+        else{
+            comment.numberOfLikes -=1;
+            comment.likes.splice(userIndex,1);
+        }
+        await comment.save();
+        res.status(200).json(comment);
+    }catch(err){
+        return res.json({
+            success:false,
+            message:"error occur!"
+        })
+    }
+}
+
+exports.dislikeComment = async(req,res,next) => {
+    try{
+        const comment = await Comment.findById(req.params.commentId);
+        if(!comment){
+            return res.json({
+                success:false,
+                error:"Comment not found"
+            });
+
+        }
+
+        const userIndex = comment.dislikes.indexOf(req.user.id);
+        if(userIndex === -1){
+            comment.numberOfdisLikes +=1;
+            comment.dislikes.push(req.user.id);
+        }
+        else{
+            comment.numberOfdisLikes -=1;
+            comment.dislikes.splice(userIndex,1);
+        }
+        await comment.save();
+        res.status(200).json(comment);
+    }
+    catch(err){
+
+    }
+}

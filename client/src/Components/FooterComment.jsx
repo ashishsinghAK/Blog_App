@@ -1,9 +1,11 @@
 import React,{useEffect, useState} from 'react'
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck, FaThumbsUp,FaThumbsDown } from 'react-icons/fa';
 import moment from 'moment'
+import { useSelector } from 'react-redux';
 
-const FooterComment = ({comment}) => {
+const FooterComment = ({comment,onLike,onDisLike}) => {
     const [user,setUser] = useState({});
+    const {currentUser} = useSelector((state) => state.user);
     useEffect(()=> {
         const getUser = async() => {
             try{
@@ -23,12 +25,32 @@ const FooterComment = ({comment}) => {
     <div className='flex p-4 border-b dark:border-gray-600 text-sm'>
         <FaCheck className='text-green-500 w-4 h-4 rounded-full bg-gray-200' />
         <div className='flex-1'>
-            <div className='flex items-center mb-1'>
+            <div className=''>
+            <div className='flex items-center'>
                 <span className='font-bold mr-1 text-xs '>
                     {user ? `@${user.username}` : "anonymous user"}</span>
                     <span className='text-gray-500 text-xs'>{moment(comment.createdAt).fromNow()}</span>
+                    
             </div>
-            <p className='text-gray-500 mb-2 '>{comment.content}</p>
+            <span className='ml-2'>{user.isAdmin && <span className='bg-gray-500 rounded p-.5'>author</span>}</span>
+            </div>
+            <p className='text-gray-500 mt-3 mb-2'>{comment.content}</p>
+            <div className='flex gap-2'>
+                <button type='button' onClick={() => onLike(comment._id)} className={`text-gray-400 hover:text-blue-500
+                    ${currentUser && comment.likes.includes(currentUser._id) && '!text-blue-600'}`}>
+                    <FaThumbsUp/>
+                </button>
+                <p className='text-gray-500'>{
+                 comment.numberOfLikes > 0 && comment.numberOfLikes + " "+ (comment.numberOfLikes === 1 ? "like" : "likes")    
+                }</p>
+                <button type='button' onClick={() => onDisLike(comment._id)} className={`text-gray-400 hover:text-blue-500
+                    ${currentUser && comment.dislikes.includes(currentUser._id) && '!text-blue-600'}`}>
+                    <FaThumbsDown/>
+                </button>
+                <p className='text-gray-500'>{
+                 comment.numberOfdisLikes > 0 && comment.numberOfdisLikes + " "+ (comment.numberOfdisLikes === 1 ? "dislike" : "dislikes")    
+                }</p>
+            </div>
         </div>
         
 
