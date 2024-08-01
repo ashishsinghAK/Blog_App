@@ -143,6 +143,6 @@ exports.getcomments = async (req, res, next) => {
       });
       res.status(200).json({ comments, totalComments, lastMonthComments });
     } catch (error) {
-      next(error);
+      return res.json("error while fetching comments")
     }
   };

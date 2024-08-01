@@ -1,6 +1,6 @@
 import React from 'react'
 import { Sidebar } from 'flowbite-react';
-import { HiUser, HiArrowSmRight,HiDocumentText, HiOutlineUserGroup, HiAnnotation } from 'react-icons/hi';
+import { HiUser, HiArrowSmRight,HiDocumentText, HiOutlineUserGroup, HiAnnotation, HiChartPie } from 'react-icons/hi';
 import { useLocation,useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { Link } from 'react-router-dom';
@@ -49,6 +49,18 @@ export default function DashSidebar() {
         <Sidebar.Item active={tab==='profile'} label={currentUser.isAdmin ? 'Admin' : 'User'} icon={HiUser} as='div' className="cursor-pointer">
           Profile
         </Sidebar.Item>
+
+        {
+          currentUser.isAdmin && (
+            <Link to='/dashboard?tab=dash' >
+            <Sidebar.Item active={tab==='dash'} icon={HiChartPie} as='div'>
+              Dashboard
+            </Sidebar.Item>
+            </Link>
+          )
+        }
+
+        
         {
           currentUser && (
             <Link to='/dashboard?tab=posts' >
@@ -70,7 +82,7 @@ export default function DashSidebar() {
         }
 
 
-{
+        {
           currentUser.isAdmin && (
             <Link to='/dashboard?tab=comments' >
             <Sidebar.Item active={tab==='comments'} icon={HiAnnotation} as='div'>
@@ -79,6 +91,8 @@ export default function DashSidebar() {
             </Link>
           )
         }
+
+       
 
         </Link>
         <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={handleSignOut}>
