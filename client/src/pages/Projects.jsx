@@ -1,8 +1,7 @@
-const Projects = () => {
-    return(
-        <div>
+import React from 'react'
 
-        </div>
-    )
+export default function Project() {
+  return (
+    <div>Project</div>
+  )
 }
-export default Projects;

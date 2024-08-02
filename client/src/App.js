@@ -38,7 +38,7 @@ function App() {
           <Route path="/create-post" element={<CreatePost />} />
           </Route>
           
-          <Route path="/project" element={<Projects />} />
+          {/* <Route path="/project" element={<Projects />} /> */}
           <Route path="/post/:postSlug" element={<PostPage />} />
         </Routes>
         <FooterComp/>
