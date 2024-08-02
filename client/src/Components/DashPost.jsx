@@ -15,16 +15,29 @@ const DashPost = () => {
   useEffect(() => {
     try {
       const fetchPost = async () => {
-        const res = await fetch(`/api/post/getpost?userId=${currentUser._id}`);
-        const data = await res.json();
-        if (res.ok) {
-          setUserPost(data.post);
-          if (data.post.length < 9) {
-            setShowMore(false);
+        if(currentUser.isAdmin){
+          const res = await fetch(`/api/post/getpost?userId=${currentUser._id}`);
+          const data = await res.json();
+          if (res.ok) {
+            setUserPost(data.post);
+            if (data.post.length < 9) {
+              setShowMore(false);
+            }
           }
         }
+        else{
+          const res = await fetch(`/api/post/getpost`);
+          const data = await res.json();
+          if (res.ok) {
+            setUserPost(data.post);
+            if (data.post.length < 9) {
+              setShowMore(false);
+            }
+          }
+        }
+        
       }
-      if (currentUser.isAdmin) {
+      if (currentUser) {
         fetchPost();
       }
     } catch (err) {
@@ -72,7 +85,7 @@ const DashPost = () => {
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 
     scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 w-full'>
-      {currentUser.isAdmin && userPost.length > 0 ?
+      {currentUser && userPost.length > 0 ?
         (<>
           <Table>
             <Table.Head>
@@ -80,7 +93,15 @@ const DashPost = () => {
               <Table.HeadCell>Post Image</Table.HeadCell>
               <Table.HeadCell>Post Title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
+              <Table.HeadCell>
+                {
+                  currentUser.isAdmin && (
+                    <span>
+                      Delete
+                    </span>
+                  )
+                }
+              </Table.HeadCell>
               {/* <Table.HeadCell>Edit</Table.HeadCell> */}
             </Table.Head>
             {
@@ -100,19 +121,18 @@ const DashPost = () => {
                     </Table.Cell>
                     <Table.Cell>{post.category}</Table.Cell>
                     <Table.Cell>
-                      <span className='font-medium text-red-500 hover:underline cursor-pointer'
+                      {
+                        currentUser.isAdmin && (
+                          <span className='font-medium text-red-500 hover:underline cursor-pointer'
                       onClick={() => {
                         setShowModal(true)
                         setPostIdtoDelete(post._id)
                       }}>
                         Delete
                       </span>
+                        )
+                      }
                     </Table.Cell>
-                    {/* <Table.Cell>
-                      <span>
-                        Edit
-                      </span>
-                    </Table.Cell> */}
                   </Table.Row>
                 </Table.Body>
               ))
