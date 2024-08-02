@@ -13,6 +13,7 @@ import AdminPrivateRoute from './Components/AdminPrivateRoute';
 import CreatePost from './pages/CreatePost';
 import PostPage from'./pages/PostPage'
 import ScrollToTop from './Components/ScrollToTop';
+import Search from './pages/Search';
 
 function App() {
   const [data, setData] = useState(null);
@@ -29,6 +30,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path='/search' element={<Search/>}/>
           <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard />} />
           </Route>
