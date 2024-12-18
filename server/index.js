@@ -8,9 +8,11 @@ require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-    origin: '*',
-    credentials:true
-  }));
+  origin: 'https://blog-app-nine-blond.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 //middleware
 const cookieParser = require('cookie-parser');

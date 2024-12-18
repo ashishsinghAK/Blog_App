@@ -14,30 +14,53 @@ const SignUp = () => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
+    
         if (!formData.username || !formData.email || !formData.password) {
             return setErrorMessage("Please fill out all the fields");
         }
+    
         try {
             setLoading(true);
             setErrorMessage(null);
-            const res = await fetch('/api/auth/signup', {
+    
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
             });
-            const data = await res.json();
-            if (data.success === false) {
-                return setErrorMessage(data.message);
+    
+            // Check if the response status is OK (200-299)
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => null); // Safely attempt to parse JSON
+                setLoading(false);
+                return setErrorMessage(errorData?.message || `Error: ${res.statusText}`);
             }
-            setLoading(false);
-            if (res.ok) {
-                navigate('/sign-in');
+    
+            // Parse JSON if response is OK
+            const data = await res.json().catch(() => {
+                // If JSON parsing fails, handle it gracefully
+                setLoading(false);
+                setErrorMessage("Failed to parse response from server.");
+                return null;
+            });
+    
+            if (data) {
+                setLoading(false);
+    
+                // Check success field from the server
+                if (data.success) {
+                    navigate('/sign-in');
+                } else {
+                    setErrorMessage(data.message || "Sign-up failed.");
+                }
             }
         } catch (err) {
             console.error('Error during sign up:', err);
             setLoading(false);
+            setErrorMessage("An error occurred. Please try again later.");
         }
-    }
+    };
+    
 
     return (
 
