@@ -5,30 +5,11 @@ import { useSelector,useDispatch } from 'react-redux';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 import {deleteUserFailure,deleteUserStart,deleteUserSuccess,SignOutSuccess} from '../redux/slice/userSlice';
 
-// import {
-//     getDownloadURL,
-//     getStorage,
-//     ref,
-//     uploadBytesResumable,
-// } from 'firebase/storage';
-// import { app } from '../firebase';
-// import { CircularProgressbar } from 'react-circular-progressbar';
-// import 'react-circular-progressbar/dist/styles.css';
-
 export default function DashProfile() {
     const imageFileUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
     const { currentUser } = useSelector(state => state.user);
     const [showModal,setShowModal] = useState(false);
     const dispatch = useDispatch();
-    // const [imageFile, setImageFile] = useState(null);
-    //const [imageFileUrl, setImageFileUrl] = useState(null);
-    // const filePickerRef = useRef();
-    
-    // const [uploadProgress, setUploadProgress] = useState(null);
-    // const [uploadError, setUploadError] = useState(null);
-    // const [imageFileUploading, setImageFileUploading] = useState(false);
-    // const [formData,setFormData] = useState({});
-
     const handleDeleteUser = async() => {
         setShowModal(false);
         try{
@@ -65,92 +46,12 @@ export default function DashProfile() {
 
         }
     }
-
-    // const handleImageChange = (event) => {
-    //     const file = event.target.files[0];
-    //     if (file) {
-    //         setImageFile(file);
-    //         setImageFileUrl(URL.createObjectURL(file));
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     if (imageFile) {
-    //         uploadImage();
-    //     }
-    // }, [imageFile]);
-
-
-
-    // const uploadImage = async () => {
-    //     setUploadError(null);
-    //     const storage = getStorage(app);
-    //     const fileName = new Date().getTime() + imageFile.name;
-    //     const storageRef = ref(storage, fileName);
-    //     const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
-    //     uploadTask.on(
-    //         'state_changed',
-    //         (snapshot) => {
-    //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //             setUploadProgress(progress.toFixed(0));
-    //         },
-    //         (error) => {
-    //             setUploadError("File must be less than 2MB");
-    //             setUploadProgress(null);
-    //             setImageFile(null);
-    //             setImageFileUrl(null);
-    //             // setImageFileUploading(false);
-    //         },
-    //         () => {
-    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //                 setImageFileUrl(downloadURL);
-    //                 setFormData({...formData,profilePicture:downloadURL});
-    //             })
-    //         }
-            
-
-    //     );
-    // };
-
-    // const handleChange = (event) => {
-    //     setFormData({...formData,[event.target.id] : event.target.value});
-    // }
-    // console.log(formData);
-
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-
-    // }
-
-
-
     return (
         <div className='max-w-lg mx-auto p-3 w-full md:ml-[20vw]'>
             <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
             <form className='flex flex-col gap-4 '>
-                {/* <input type='file' accept='image/*' onChange={handleImageChange} ref={filePickerRef} hidden /> */}
+                
                 <div className='relative w-32 h-32 self-center shadow-md overflow-hidden rounded-full' >
-                    {/* {uploadProgress !=null && (
-                        <CircularProgressbar
-                            value={uploadProgress}
-                            text={`${uploadProgress}%`}
-                            strokeWidth={5}
-                            styles={{
-                                root: {
-                                    width: '100%',
-                                    height: '100%',
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                },
-                                path: {
-                                    stroke: `rgba(62,152,199, ${uploadProgress / 100})`,
-                                }
-                            }}
-                        />
-                        
-                    )} */}
                     
                     <img src={imageFileUrl} alt='user' className='rounded-full w-full h-full object-cover border-8 border-[lightgray]' />
                 </div>
@@ -158,16 +59,6 @@ export default function DashProfile() {
 
                 <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username} />
                 <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email} />
-
-                {/* <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username} 
-                onChange={handleChange}/>
-                <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email} 
-                onChange={handleChange}/>
-                <TextInput type='password' id='password' placeholder='password' 
-                onChange={handleChange}/> */}
-                {/* <Button type='submit' gradientDuoTone='purpleToBlue' outline>
-                    Update
-                </Button> */}
 
                 {
                     currentUser && (

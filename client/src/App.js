@@ -12,10 +12,11 @@ import CreatePost from './pages/CreatePost';
 import PostPage from './pages/PostPage'
 import Search from './pages/Search';
 
+
 function App() {
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch('http://localhost:3000/api/data')
+    fetch(`${process.env.BASE_URL}/api/data`)
       .then(response => response.json())
       .then(data => setData(data));
   }, []);

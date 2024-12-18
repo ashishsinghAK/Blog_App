@@ -15,17 +15,6 @@ const DashPost = () => {
   useEffect(() => {
     try {
       const fetchPost = async () => {
-        if(currentUser.isAdmin){
-          const res = await fetch(`/api/post/getpost?userId=${currentUser._id}`);
-          const data = await res.json();
-          if (res.ok) {
-            setUserPost(data.post);
-            if (data.post.length < 9) {
-              setShowMore(false);
-            }
-          }
-        }
-        else{
           const res = await fetch(`/api/post/getpost`);
           const data = await res.json();
           if (res.ok) {
@@ -34,8 +23,6 @@ const DashPost = () => {
               setShowMore(false);
             }
           }
-        }
-        
       }
       if (currentUser) {
         fetchPost();
