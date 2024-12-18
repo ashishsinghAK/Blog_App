@@ -8,7 +8,7 @@ const Home = () => {
 
     useEffect(() => {
         const fetchPost = async() => {
-            const res = await fetch('/api/post/getpost');
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/getpost`);
             const data = await res.json();
             if(res.ok){
                 setPosts(data.post);

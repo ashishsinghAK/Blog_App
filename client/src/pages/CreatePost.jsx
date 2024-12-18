@@ -62,7 +62,7 @@ const CreatePost = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
-            const res = await fetch('/api/post/create',{
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/create`,{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
@@ -70,10 +70,6 @@ const CreatePost = () => {
                 body:JSON.stringify(formData)
             });
             const data = await res.json();
-            // if(data.success ===false){
-            //     setPublishError(data.message);
-            //     return;
-            // }
             if(!res.ok){
                 setPublishError(data.message);
                 return;

@@ -9,7 +9,7 @@ const FooterComment = ({ comment, onLike, onDisLike, onDelete }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const res = await fetch(`/api/v1/${comment.userId}`);
+                const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/${comment.userId}`);
                 const data = await res.json();
                 if (res.ok) {
                     setUser(data);

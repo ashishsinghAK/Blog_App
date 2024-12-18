@@ -15,7 +15,7 @@ const DashPost = () => {
   useEffect(() => {
     try {
       const fetchPost = async () => {
-          const res = await fetch(`/api/post/getpost`);
+          const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/getpost`);
           const data = await res.json();
           if (res.ok) {
             setUserPost(data.post);
@@ -35,10 +35,9 @@ const DashPost = () => {
   const handleShowMore = async () => {
     const startIndex = userPost.length;
     try {
-      const res = await fetch(`/api/post/getpost?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/getpost?userId=${currentUser._id}&startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
-        //console.log("Fetched additional posts:", data.post);
         setUserPost((prev) => [...prev, ...data.post]);
         if (data.post.length < 9) {
           setShowMore(false);
@@ -52,7 +51,7 @@ const DashPost = () => {
   const handleDeletePost = async () => {
     setShowModal(false);
     try{
-      const res = await fetch(`/api/post/deletepost/${postIdtoDelete}/${currentUser._id}`,{
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/deletepost/${postIdtoDelete}/${currentUser._id}`,{
           method:'DELETE'
       });
 

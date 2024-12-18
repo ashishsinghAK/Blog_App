@@ -23,7 +23,7 @@ const Comment = ({ postId }) => {
             return;
         }
         try {
-            const res = await fetch('/api/comment/create', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/comment/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

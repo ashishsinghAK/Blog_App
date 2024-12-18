@@ -33,7 +33,7 @@ const Search = () => {
         const fetchPost = async () => {
             setLoading(true);
             const searchQuery = urlParams.toString();
-            const res = await fetch(`/api/post/getpost?${searchQuery}`);
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/getpost?${searchQuery}`);
             if (!res.ok) {
                 setLoading(false);
                 return;

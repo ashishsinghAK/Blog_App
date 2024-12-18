@@ -21,7 +21,7 @@ const SignIn = () => {
         }
         try {
             dispatch(signInStart());
-            const res = await fetch('/api/auth/signin', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/signin`, {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(formData)

@@ -28,7 +28,7 @@ const Header = () => {
 
     const handleSignOut = async () => {
         try {
-            const res = await fetch('/api/v1/signout', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/signout`, {
                 method: 'POST'
             });
             const data = await res.json();
