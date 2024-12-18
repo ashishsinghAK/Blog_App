@@ -1,12 +1,6 @@
 const Post = require('../model/postModel');
 
 exports.createPost = async(req,res,next) => {
-    if(!req.user.isAdmin){
-        return res.json({
-            success:false,
-            message:"Only admin is allowed to create post"
-        });
-    }
     if(!req.body.title || !req.body.content){
         return res.json({
             success:false,
