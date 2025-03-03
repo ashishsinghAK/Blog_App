@@ -16,7 +16,7 @@ import Search from './pages/Search';
 function App() {
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BASE_URLL}/api/data`)
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/data`)
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
