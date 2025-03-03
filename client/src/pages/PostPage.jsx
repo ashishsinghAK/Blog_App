@@ -80,7 +80,7 @@ const PostPage = () => {
             mx-auto w-full post-content'>
 
             </div>
-            <Comment postId={posts._id}/>
+            { posts && <Comment postId={posts._id}/>}
 
             <div className='flex flex-col judtify-center items-center mb-5 '>
                <h1 className='text-xl mt-5'>Recent Articles</h1>
