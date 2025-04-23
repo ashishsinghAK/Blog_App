@@ -13,11 +13,17 @@ export default function DashComment() {
   useEffect(() => {
     const fetchComments = async (postId) => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/comment/getcomment`);
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/comment/getcomment`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
         const data = await res.json();
-        
+
         if (res.ok) {
-          
+
           setComments(data.comments);
           if (data.comments.length < 9) {
             setShowMore(false);

@@ -1,15 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-
-
+const connect = require('./config/database');
+const path = require('path')
 
 const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: 'https://blog-app-nine-blond.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: 'https://blog-app-98o2.onrender.com',
   credentials: true
 }));
 
@@ -32,8 +31,14 @@ app.use("/api/post",createPostRoute);
 app.use('/api/comment',commentRoute);
 
 
-const connect = require('./config/database');
+
 connect();
+
+app.use(express.static(path.join(__dirname,"../client/build")))
+app.get("*",(req,res) => {
+    res.sendFile(path.resolve(__dirname,"../client/build/index.html"))
+})
+
 
 app.listen(PORT, () => {
     console.log(`Server is listening at ${PORT}`);

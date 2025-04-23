@@ -52,7 +52,11 @@ const DashPost = () => {
     setShowModal(false);
     try{
       const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/deletepost/${postIdtoDelete}/${currentUser._id}`,{
-          method:'DELETE'
+          method:'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
       });
 
       const data = await res.json();

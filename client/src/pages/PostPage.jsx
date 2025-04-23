@@ -19,7 +19,7 @@ const PostPage = () => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`${process.env.REACT_APP_BASE_URLL}/api/post/getpost?slug=${postSlug}`);
+                const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/post/getpost?slug=${postSlug}`);
                 const data = await res.json();
                 if (!res.ok) {
                     setError(true);
@@ -80,7 +80,7 @@ const PostPage = () => {
             mx-auto w-full post-content'>
 
             </div>
-            <Comment postId={posts._id}/>
+            { posts && <Comment postId={posts._id}/>}
 
             <div className='flex flex-col judtify-center items-center mb-5 '>
                <h1 className='text-xl mt-5'>Recent Articles</h1>
